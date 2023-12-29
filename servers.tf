@@ -12,17 +12,23 @@ data "aws_security_group" "security_group" {
   name = "allow-all"
 }
 
+variable "components" {
+  default = ["frontend", "mongodb", "catalogue"]
+}
 
-resource "aws_instance" "frontend" {
+
+resource "aws_instance" "instance" {
+  count                  = length(var.components)
   ami                    = data.aws_ami.centos.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [data.aws_security_group.security_group.id]
 
   tags = {
-    Name = "frontend"
+    Name = var.components[count.index]
   }
 }
 
+/*
 resource "aws_route53_record" "frontend" {
   zone_id = "Z08550883SIRHNRK693H1"
   name    = "frontend-dev"
@@ -191,4 +197,4 @@ resource "aws_route53_record" "payment" {
   type    = "A"
   ttl     = 30
   records = [aws_instance.payment.private_ip]
-}
+}*/
