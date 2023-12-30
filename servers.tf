@@ -8,7 +8,7 @@ variable "instance_type" {
   default = "t3.small"
 }
 
-data "aws_security_group" "security_group" {
+data "aws_security_group" "allow-all" {
   name = "allow-all"
 }
 
@@ -21,7 +21,7 @@ resource "aws_instance" "instance" {
   count                  = length(var.components)
   ami                    = data.aws_ami.centos.image_id
   instance_type          = var.instance_type
-  vpc_security_group_ids = [data.aws_security_group.security_group.id]
+  vpc_security_group_ids = [data.aws_security_group.allow-all.id]
 
   tags = {
     Name = var.components[count.index]
