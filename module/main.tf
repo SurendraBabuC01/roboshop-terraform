@@ -13,7 +13,7 @@ resource "aws_route53_record" "records" {
   name     = "${var.name}-dev.surendrababuc01.online"
   type     = "A"
   ttl      = 30
-  records  = [aws_instance.instance[var.name].private_ip]
+  records  = [aws_instance.instance["var.name"].private_ip]
 }
 
 resource "null_resource" "provisioner" {
