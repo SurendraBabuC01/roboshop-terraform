@@ -3,6 +3,6 @@ module "servers" {
   for_each = var.components
   env = var.env
   instance_type = each.value["instance_type"]
-  name = each.value["name"]
+  component_name = each.value["name"]
   password = lookup(each.value, "password", "null")
 }

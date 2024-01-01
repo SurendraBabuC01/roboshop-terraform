@@ -1,4 +1,4 @@
 variable "env" {}
 variable "instance_type" {}
-variable "name" {}
+variable "component_name" {}
 variable "password" {}

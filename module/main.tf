@@ -4,16 +4,16 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = [data.aws_security_group.allow-all.id]
 
   tags = {
-    Name = var.name
+    Name = var.component_name
   }
 }
 
 resource "aws_route53_record" "records" {
   zone_id  = "Z08550883SIRHNRK693H1"
-  name     = "${var.name}-dev.surendrababuc01.online"
+  name     = "${var.component_name}-dev.surendrababuc01.online"
   type     = "A"
   ttl      = 30
-  records  = [aws_instance.instance["${var.name}"].private_ip]
+  records  = [aws_instance.instance.private_ip]
 }
 
 resource "null_resource" "provisioner" {
@@ -24,14 +24,14 @@ resource "null_resource" "provisioner" {
       type     = "ssh"
       user     = "centos"
       password = "DevOps321"
-      host     = aws_instance.instance[var.name].private_ip
+      host     = aws_instance.instance.private_ip
     }
 
     inline = [
       "rm -rf roboshop-shell",
       "git clone https://github.com/SurendraBabuC01/roboshop-shell.git",
       "cd roboshop-shell",
-      "sudo bash ${var.name}.sh ${lookup(var.password, "password", "null")}"
+      "sudo bash ${var.component_name}.sh ${lookup(var.password, "password", "null")}"
     ]
   }
 
