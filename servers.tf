@@ -1,6 +1,6 @@
 module "servers" {
-  source = "./module"
   for_each = var.components
+  source = "./module"
   env = var.env
   instance_type = each.value["instance_type"]
   component_name = each.value["name"]
