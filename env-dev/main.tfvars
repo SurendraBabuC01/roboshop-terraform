@@ -45,4 +45,4 @@ components = {
   }
 }
 
-env = "prod"
+env = "dev"
