@@ -4,16 +4,16 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = [data.aws_security_group.allow-all.id]
 
   tags = {
-    Name = var.env != "" ? "${var.component_name}-${var.env}" :var.component_name
+    Name = local.name
   }
 }
 
 resource "aws_route53_record" "records" {
-  zone_id  = "Z08550883SIRHNRK693H1"
-  name     = "${var.component_name}-dev.surendrababuc01.online"
-  type     = "A"
-  ttl      = 30
-  records  = [aws_instance.instance.private_ip]
+  zone_id = "Z08550883SIRHNRK693H1"
+  name    = "${var.component_name}-dev.surendrababuc01.online"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.instance.private_ip]
 }
 
 resource "null_resource" "provisioner" {
