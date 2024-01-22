@@ -36,12 +36,12 @@ resource "aws_iam_role" "role" {
   name = "${var.component_name}-${var.env}-role"
 
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Sid       = ""
         Principal = {
           Service = "ec2.amazonaws.com"
         }
@@ -52,4 +52,27 @@ resource "aws_iam_role" "role" {
   tags = {
     tag-key = "${var.component_name}-${var.env}-role"
   }
+}
+
+resource "aws_iam_role_policy" "role_policy" {
+  name = "${var.component_name}-${var.env}-role_policy"
+  role = aws_iam_role.role.id
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : [
+          "ssm:DescribeParameters",
+          "ssm:DescribeDocumentParameters",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameters",
+          "ssm:GetParameter"
+        ],
+        "Resource" : "*"
+      }
+    ]
+  })
 }
