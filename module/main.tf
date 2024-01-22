@@ -54,29 +54,29 @@ resource "aws_iam_role" "role" {
   }
 }
 
-resource "aws_iam_role_policy" "role_policy" {
-  name = "${var.component_name}-${var.env}-role_policy"
+resource "aws_iam_role_policy" "ssm-ps-policy" {
+  name = "${var.component_name}-${var.env}-ssm-ps-policy"
   role = aws_iam_role.role.id
 
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Sid": "VisualEditor0",
-        "Effect": "Allow",
-        "Action": [
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : [
           "ssm:GetParameterHistory",
           "ssm:GetParametersByPath",
           "ssm:GetParameters",
           "ssm:GetParameter"
         ],
-        "Resource": "arn:aws:ssm:us-east-1:127710927797:parameter/${var.env}.${var.component_name}.*"
+        "Resource" : "arn:aws:ssm:us-east-1:127710927797:parameter/${var.env}.${var.component_name}.*"
       },
       {
-        "Sid": "VisualEditor1",
-        "Effect": "Allow",
-        "Action": "ssm:DescribeParameters",
-        "Resource": "*"
+        "Sid" : "VisualEditor1",
+        "Effect" : "Allow",
+        "Action" : "ssm:DescribeParameters",
+        "Resource" : "*"
       }
     ]
   })
