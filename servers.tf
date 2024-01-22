@@ -6,7 +6,7 @@ module "database_servers" {
   component_name = each.value["name"]
   password       = lookup(each.value, "password", "null")
   provisioner    = true
-  app            = "db_servers"
+  app_type       = "db"
 }
 
 module "app_servers" {
@@ -18,7 +18,7 @@ module "app_servers" {
   component_name = each.value["name"]
   password       = lookup(each.value, "password", "null")
   provisioner    = true
-  app            = "app_servers"
+  app_type       = "app"
 }
 
 
