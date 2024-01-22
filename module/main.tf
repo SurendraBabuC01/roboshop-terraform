@@ -65,13 +65,12 @@ resource "aws_iam_role_policy" "role_policy" {
         "Sid" : "VisualEditor0",
         "Effect" : "Allow",
         "Action" : [
-          "ssm:DescribeParameters",
-          "ssm:DescribeDocumentParameters",
+          "ssm:GetParameterHistory",
           "ssm:GetParametersByPath",
           "ssm:GetParameters",
           "ssm:GetParameter"
         ],
-        "Resource" : "*"
+        "Resource" : "arn:aws:ssm:us-east-1:127710927797:parameter/${var.env}.${var.component_name}.*"
       }
     ]
   })
