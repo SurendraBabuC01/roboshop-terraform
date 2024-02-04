@@ -8,7 +8,10 @@ module "vpc" {
   subnets    = each.value["subnets"]
 }
 
+module "web" {
+  source = "git::https://github.com/SurendraBabuC01/tf-module-app.git"
 
-output "vpc" {
-  value = module.vpc
+  for_each = var.app
+  instance_type = each.value["instance_type"]
+  subnet_id = element(lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null), 0)
 }
