@@ -1,11 +1,14 @@
 module "vpc" {
   source = "git::https://github.com/SurendraBabuC01/tf-module-vpc.git"
 
-  for_each   = var.vpc
-  cidr_block = each.value["cidr_block"]
-  tags       = local.tags
-  env        = var.env
-  subnets    = each.value["subnets"]
+  for_each               = var.vpc
+  cidr_block             = each.value["cidr_block"]
+  tags                   = local.tags
+  env                    = var.env
+  default_vpc_id         = var.default_vpc_id
+  default_vpc_cidr       = var.default_vpc_cidr
+  default_route_table_id = var.default_route_table_id
+  subnets                = each.value["subnets"]
 }
 
 module "app" {
@@ -20,6 +23,7 @@ module "app" {
 
   env          = var.env
   bastion_cidr = var.bastion_cidr
+  tags         = local.tags
 
   subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
   vpc_id         = lookup(lookup(module.vpc, "main", null), "vpc_id", null)

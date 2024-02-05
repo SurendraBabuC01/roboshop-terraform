@@ -1,6 +1,10 @@
-env          = "dev"
-bastion_cidr = "172.31.89.113/32"
-vpc          = {
+env                    = "dev"
+bastion_cidr           = "172.31.89.113/32"
+default_vpc_id         = "vpc-0ed81492b2a80db06"
+default_vpc_cidr       = "172.31.0.0/16"
+default_route_table_id = "rtb-06c27735826d5e17f"
+
+vpc = {
   main = {
     cidr_block = "10.0.0.0/16"
     subnets    = {
@@ -47,40 +51,40 @@ app = {
     max_size         = 10
     min_size         = 2
   }
-#  user = {
-#    name             = "user"
-#    instance_type    = "t3.small"
-#    subnet_name      = "app"
-#    allow_app_cidr   = "web"
-#    desired_capacity = 2
-#    max_size         = 10
-#    min_size         = 2
-#  }
-#  cart = {
-#    name             = "cart"
-#    instance_type    = "t3.small"
-#    subnet_name      = "app"
-#    allow_app_cidr   = "web"
-#    desired_capacity = 2
-#    max_size         = 10
-#    min_size         = 2
-#  }
-#  shipping = {
-#    name             = "shipping"
-#    instance_type    = "t3.small"
-#    subnet_name      = "app"
-#    allow_app_cidr   = "web"
-#    desired_capacity = 2
-#    max_size         = 10
-#    min_size         = 2
-#  }
-#  payment = {
-#    name             = "payment"
-#    instance_type    = "t3.small"
-#    subnet_name      = "app"
-#    allow_app_cidr   = "web"
-#    desired_capacity = 2
-#    max_size         = 10
-#    min_size         = 2
-#  }
+  #  user = {
+  #    name             = "user"
+  #    instance_type    = "t3.small"
+  #    subnet_name      = "app"
+  #    allow_app_cidr   = "web"
+  #    desired_capacity = 2
+  #    max_size         = 10
+  #    min_size         = 2
+  #  }
+  #  cart = {
+  #    name             = "cart"
+  #    instance_type    = "t3.small"
+  #    subnet_name      = "app"
+  #    allow_app_cidr   = "web"
+  #    desired_capacity = 2
+  #    max_size         = 10
+  #    min_size         = 2
+  #  }
+  #  shipping = {
+  #    name             = "shipping"
+  #    instance_type    = "t3.small"
+  #    subnet_name      = "app"
+  #    allow_app_cidr   = "web"
+  #    desired_capacity = 2
+  #    max_size         = 10
+  #    min_size         = 2
+  #  }
+  #  payment = {
+  #    name             = "payment"
+  #    instance_type    = "t3.small"
+  #    subnet_name      = "app"
+  #    allow_app_cidr   = "web"
+  #    desired_capacity = 2
+  #    max_size         = 10
+  #    min_size         = 2
+  #  }
 }
