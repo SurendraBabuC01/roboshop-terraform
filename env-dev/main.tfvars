@@ -97,7 +97,7 @@ docdb = {
     port_no        = 27017
     allow_db_cidr  = "app"
     engine_version = "4.0.0"
-    count          = 1
+    instance_count = 1
     instance_class = "db.t3.medium"
   }
 }
