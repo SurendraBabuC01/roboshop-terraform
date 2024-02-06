@@ -3,6 +3,7 @@ bastion_cidr           = "172.31.89.113/32"
 default_vpc_id         = "vpc-0ed81492b2a80db06"
 default_vpc_cidr       = "172.31.0.0/16"
 default_route_table_id = "rtb-06c27735826d5e17f"
+kms_arn                = "arn:aws:kms:us-east-1:127710927797:key/f4c80366-50e1-4dbc-8d1a-102ebb740ae6"
 
 vpc = {
   main = {
@@ -87,4 +88,14 @@ app = {
   #    max_size         = 10
   #    min_size         = 2
   #  }
+}
+
+docdb = {
+  main = {
+    name           = "docdb"
+    subnet_name    = "db"
+    port_no        = 27017
+    allow_db_cidr  = "app"
+    engine_version = "4.0.0"
+  }
 }
