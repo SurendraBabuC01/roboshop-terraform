@@ -126,3 +126,13 @@ elasticache = {
     replicas_per_node_group = 1
   }
 }
+
+rabbitmq = {
+  main = {
+    name          = "rabbitmq"
+    subnet_name   = "db"
+    port_no       = 5627
+    allow_db_cidr = "app"
+    instance_type = "t3.small"
+  }
+}
