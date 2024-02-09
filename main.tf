@@ -39,7 +39,7 @@ module "docdb" {
   engine_version = each.value["engine_version"]
   instance_count = each.value["instance_count"]
   instance_class = each.value["instance_class"]
-  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+  subnet_ids     = lookup(lookup(lookup(lookup''(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
   allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
 
   vpc_id  = local.vpc_id
@@ -48,3 +48,20 @@ module "docdb" {
   kms_arn = var.kms_arn
 }
 
+module "rds" {
+  source = "git::https://github.com/SurendraBabuC01/tf-module-rds.git"
+
+  for_each       = var.rds
+  name           = each.value["name"]
+  port_no        = each.value["port_no"]
+  engine_version = each.value["engine_version"]
+  instance_count = each.value["instance_count"]
+  instance_class = each.value["instance_class"]
+  subnet_ids     = lookup(lookup(lookup(lookup''(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+
+  vpc_id  = local.vpc_id
+  tags    = local.tags
+  env     = var.env
+  kms_arn = var.kms_arn
+}

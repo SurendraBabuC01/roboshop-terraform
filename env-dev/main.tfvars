@@ -101,3 +101,15 @@ docdb = {
     instance_class = "db.t3.medium"
   }
 }
+
+rds = {
+  main = {
+    name           = "rds"
+    subnet_name    = "db"
+    port_no        = 3306
+    allow_db_cidr  = "app"
+    engine_version = "5.7.mysql_aurora.2.11.2"
+    instance_count = 1
+    instance_class = "db.t3.small"
+  }
+}
