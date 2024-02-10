@@ -11,77 +11,77 @@ module "vpc" {
   subnets                = each.value["subnets"]
 }
 
-module "docdb" {
-  source = "git::https://github.com/SurendraBabuC01/tf-module-docdb.git"
-
-  for_each       = var.docdb
-  name           = each.value["name"]
-  port_no        = each.value["port_no"]
-  engine_version = each.value["engine_version"]
-  instance_count = each.value["instance_count"]
-  instance_class = each.value["instance_class"]
-  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
-
-  vpc_id  = local.vpc_id
-  tags    = local.tags
-  env     = var.env
-  kms_arn = var.kms_arn
-}
-
-module "rds" {
-  source = "git::https://github.com/SurendraBabuC01/tf-module-rds.git"
-
-  for_each       = var.rds
-  name           = each.value["name"]
-  port_no        = each.value["port_no"]
-  engine_version = each.value["engine_version"]
-  instance_count = each.value["instance_count"]
-  instance_class = each.value["instance_class"]
-  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
-
-  vpc_id  = local.vpc_id
-  tags    = local.tags
-  env     = var.env
-  kms_arn = var.kms_arn
-}
-
-module "elasticache" {
-  source = "git::https://github.com/SurendraBabuC01/tf-module-elasticache.git"
-
-  for_each                = var.elasticache
-  name                    = each.value["name"]
-  port_no                 = each.value["port_no"]
-  engine_version          = each.value["engine_version"]
-  num_node_groups         = each.value["num_node_groups"]
-  node_type               = each.value["node_type"]
-  replicas_per_node_group = each.value["replicas_per_node_group"]
-  subnet_ids              = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_db_cidr           = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
-
-  vpc_id  = local.vpc_id
-  tags    = local.tags
-  env     = var.env
-  kms_arn = var.kms_arn
-}
-
-module "rabbitmq" {
-  source = "git::https://github.com/SurendraBabuC01/tf-module-amazon-mq.git"
-
-  for_each      = var.rabbitmq
-  name          = each.value["name"]
-  port_no       = each.value["port_no"]
-  instance_type = each.value["instance_type"]
-  subnet_ids    = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_db_cidr = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
-
-  vpc_id       = local.vpc_id
-  tags         = local.tags
-  env          = var.env
-  kms_arn      = var.kms_arn
-  bastion_cidr = var.bastion_cidr
-}
+#module "docdb" {
+#  source = "git::https://github.com/SurendraBabuC01/tf-module-docdb.git"
+#
+#  for_each       = var.docdb
+#  name           = each.value["name"]
+#  port_no        = each.value["port_no"]
+#  engine_version = each.value["engine_version"]
+#  instance_count = each.value["instance_count"]
+#  instance_class = each.value["instance_class"]
+#  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+#  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+#
+#  vpc_id  = local.vpc_id
+#  tags    = local.tags
+#  env     = var.env
+#  kms_arn = var.kms_arn
+#}
+#
+#module "rds" {
+#  source = "git::https://github.com/SurendraBabuC01/tf-module-rds.git"
+#
+#  for_each       = var.rds
+#  name           = each.value["name"]
+#  port_no        = each.value["port_no"]
+#  engine_version = each.value["engine_version"]
+#  instance_count = each.value["instance_count"]
+#  instance_class = each.value["instance_class"]
+#  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+#  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+#
+#  vpc_id  = local.vpc_id
+#  tags    = local.tags
+#  env     = var.env
+#  kms_arn = var.kms_arn
+#}
+#
+#module "elasticache" {
+#  source = "git::https://github.com/SurendraBabuC01/tf-module-elasticache.git"
+#
+#  for_each                = var.elasticache
+#  name                    = each.value["name"]
+#  port_no                 = each.value["port_no"]
+#  engine_version          = each.value["engine_version"]
+#  num_node_groups         = each.value["num_node_groups"]
+#  node_type               = each.value["node_type"]
+#  replicas_per_node_group = each.value["replicas_per_node_group"]
+#  subnet_ids              = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+#  allow_db_cidr           = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+#
+#  vpc_id  = local.vpc_id
+#  tags    = local.tags
+#  env     = var.env
+#  kms_arn = var.kms_arn
+#}
+#
+#module "rabbitmq" {
+#  source = "git::https://github.com/SurendraBabuC01/tf-module-amazon-mq.git"
+#
+#  for_each      = var.rabbitmq
+#  name          = each.value["name"]
+#  port_no       = each.value["port_no"]
+#  instance_type = each.value["instance_type"]
+#  subnet_ids    = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+#  allow_db_cidr = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+#
+#  vpc_id       = local.vpc_id
+#  tags         = local.tags
+#  env          = var.env
+#  kms_arn      = var.kms_arn
+#  bastion_cidr = var.bastion_cidr
+#}
 
 module "alb" {
   source = "git::https://github.com/SurendraBabuC01/tf-module-alb.git"
@@ -100,7 +100,7 @@ module "alb" {
 }
 
 module "app" {
-  depends_on = [module.vpc, module.docdb, module.rds, module.elasticache, module.rabbitmq, module.alb]
+#  depends_on = [module.vpc, module.docdb, module.rds, module.elasticache, module.rabbitmq, module.alb]
   source     = "git::https://github.com/SurendraBabuC01/tf-module-app.git"
 
   for_each         = var.app
