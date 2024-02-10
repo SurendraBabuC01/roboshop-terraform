@@ -39,18 +39,20 @@ app = {
     instance_type    = "t3.small"
     subnet_name      = "web"
     allow_app_cidr   = "public"
-    desired_capacity = 2
+    desired_capacity = 1
     max_size         = 10
-    min_size         = 2
+    min_size         = 1
+    app_port         = 80
   }
   catalogue = {
     name             = "catalogue"
     instance_type    = "t3.small"
     subnet_name      = "app"
     allow_app_cidr   = "web"
-    desired_capacity = 2
+    desired_capacity = 1
     max_size         = 10
-    min_size         = 2
+    min_size         = 1
+    app_port         = 8080
   }
   #  user = {
   #    name             = "user"
@@ -143,13 +145,11 @@ alb = {
     subnet_name    = "public"
     allow_alb_cidr = null
     internal       = false
-    port_no        = 80
   }
   private = {
     name           = "private"
     subnet_name    = "app"
     allow_alb_cidr = "web"
     internal       = true
-    port_no        = 8080
   }
 }
