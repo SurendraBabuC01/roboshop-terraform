@@ -131,7 +131,7 @@ rabbitmq = {
   main = {
     name          = "rabbitmq"
     subnet_name   = "db"
-    port_no       = 5627
+    port_no       = 5672
     allow_db_cidr = "app"
     instance_type = "t3.small"
   }
