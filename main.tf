@@ -88,16 +88,31 @@ module "vpc" {
 module "rabbitmq" {
   source = "git::https://github.com/SurendraBabuC01/tf-module-amazon-mq.git"
 
-  for_each       = var.rabbitmq
-  name           = each.value["name"]
-  port_no        = each.value["port_no"]
+  for_each      = var.rabbitmq
+  name          = each.value["name"]
+  port_no       = each.value["port_no"]
   instance_type = each.value["instance_type"]
-  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+  subnet_ids    = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+  allow_db_cidr = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
 
   vpc_id       = local.vpc_id
   tags         = local.tags
   env          = var.env
   kms_arn      = var.kms_arn
   bastion_cidr = var.bastion_cidr
+}
+
+module "alb" {
+  source = "git::https://github.com/SurendraBabuC01/tf-module-alb.git"
+
+  for_each       = var.alb
+  name           = each.value["name"]
+  port_no        = each.value["port_no"]
+  internal       = each.value["internal"]
+  subnet_ids     = each.value["name"] == "public" ? ["0.0.0.0/0"] : lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+  allow_alb_cidr = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_alb_cidr"], null), "subnet_cidrs", null)
+
+  vpc_id = local.vpc_id
+  tags   = local.tags
+  env    = var.env
 }
