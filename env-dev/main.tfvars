@@ -5,7 +5,7 @@ default_vpc_cidr       = "172.31.0.0/16"
 default_route_table_id = "rtb-06c27735826d5e17f"
 kms_arn                = "arn:aws:kms:us-east-1:127710927797:key/f4c80366-50e1-4dbc-8d1a-102ebb740ae6"
 domain_name            = "surendrababuc01.online"
-doamin_id              = "Z08550883SIRHNRK693H1"
+domain_id              = "Z08550883SIRHNRK693H1"
 
 vpc = {
   main = {
