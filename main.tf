@@ -100,7 +100,7 @@ module "alb" {
 module "app" {
   #  depends_on = [module.vpc, module.docdb, module.rds, module.elasticache, module.rabbitmq, module.alb]
   depends_on = [module.vpc, module.alb]
-  source = "git::https://github.com/SurendraBabuC01/tf-module-app.git"
+  source     = "git::https://github.com/SurendraBabuC01/tf-module-app.git"
 
   for_each          = var.app
   instance_type     = each.value["instance_type"]
@@ -110,15 +110,17 @@ module "app" {
   min_size          = each.value["min_size"]
   app_port          = each.value["app_port"]
   listener_priority = each.value["listener_priority"]
-#  dns_name          = each.value["name"] == "frontend" ?  each.value["dns_name"] : "${each.value["name"].${var.env}}"
+  dns_name          = each.value["name"] == "frontend" ?  "dns_name" : "${each.value["name"].${var.env}}"
 
   subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
   vpc_id         = lookup(lookup(module.vpc, "main", null), "vpc_id", null)
   allow_app_cidr = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_app_cidr"], null), "subnet_cidrs", null)
   listener_arn   = lookup(lookup(module.alb, each.value["lb_type"], null), "listener_arn", null)
+  alb_dns_name   = lookup(lookup(module.alb, each.value["lb_type"], null), "dns_name", null)
 
   env          = var.env
   bastion_cidr = var.bastion_cidr
   tags         = local.tags
   domain_name  = var.domain_name
+  domain_id    = var.domain_id
 }
