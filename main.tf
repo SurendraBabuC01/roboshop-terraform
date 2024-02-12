@@ -11,24 +11,24 @@ module "vpc" {
   subnets                = each.value["subnets"]
 }
 
-#module "docdb" {
-#  source = "git::https://github.com/SurendraBabuC01/tf-module-docdb.git"
-#
-#  for_each       = var.docdb
-#  name           = each.value["name"]
-#  port_no        = each.value["port_no"]
-#  engine_version = each.value["engine_version"]
-#  instance_count = each.value["instance_count"]
-#  instance_class = each.value["instance_class"]
-#  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-#  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
-#
-#  vpc_id  = local.vpc_id
-#  tags    = local.tags
-#  env     = var.env
-#  kms_arn = var.kms_arn
-#}
-#
+module "docdb" {
+  source = "git::https://github.com/SurendraBabuC01/tf-module-docdb.git"
+
+  for_each       = var.docdb
+  name           = each.value["name"]
+  port_no        = each.value["port_no"]
+  engine_version = each.value["engine_version"]
+  instance_count = each.value["instance_count"]
+  instance_class = each.value["instance_class"]
+  subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
+  allow_db_cidr  = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_db_cidr"], null), "subnet_cidrs", null)
+
+  vpc_id  = local.vpc_id
+  tags    = local.tags
+  env     = var.env
+  kms_arn = var.kms_arn
+}
+
 #module "rds" {
 #  source = "git::https://github.com/SurendraBabuC01/tf-module-rds.git"
 #
@@ -99,7 +99,7 @@ module "alb" {
 
 module "app" {
   #  depends_on = [module.vpc, module.docdb, module.rds, module.elasticache, module.rabbitmq, module.alb]
-  depends_on = [module.vpc, module.alb]
+  depends_on = [module.vpc, module.alb, module.docdb]
   source     = "git::https://github.com/SurendraBabuC01/tf-module-app.git"
 
   for_each          = var.app
