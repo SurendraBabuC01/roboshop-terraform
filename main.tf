@@ -109,6 +109,7 @@ module "app" {
   max_size          = each.value["max_size"]
   min_size          = each.value["min_size"]
   app_port          = each.value["app_port"]
+  parameters        = each.value["parameters"]
   listener_priority = each.value["listener_priority"]
   dns_name          = each.value["name"] == "frontend" ? each.value["dns_name"] : "${each.value["name"]}-${var.env}"
 
