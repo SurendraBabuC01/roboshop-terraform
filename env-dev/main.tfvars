@@ -1,5 +1,6 @@
 env                    = "dev"
 bastion_cidr           = "172.31.46.191/32"
+monitor_cidr           = "172.31.47.220/32"
 default_vpc_id         = "vpc-0ed81492b2a80db06"
 default_vpc_cidr       = "172.31.0.0/16"
 default_route_table_id = "rtb-06c27735826d5e17f"
