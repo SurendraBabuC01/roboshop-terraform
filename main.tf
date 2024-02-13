@@ -91,7 +91,9 @@ module "alb" {
   name           = each.value["name"]
   internal       = each.value["internal"]
   subnet_ids     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["subnet_name"], null), "subnet_ids", null)
-  allow_alb_cidr = each.value["name"] == "public" ? ["0.0.0.0/0"] : concat(lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_alb_cidr"], null), "subnet_cidrs", null), lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), "app", null), "subnet_cidrs", null))
+  allow_alb_cidr = each.value["name"] == "public" ? [
+    "0.0.0.0/0"
+  ] : concat(lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), each.value["allow_alb_cidr"], null), "subnet_cidrs", null), lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), "app", null), "subnet_cidrs", null))
 
   vpc_id = local.vpc_id
   tags   = local.tags
@@ -121,7 +123,7 @@ module "app" {
 
   env          = var.env
   bastion_cidr = var.bastion_cidr
-  tags         = local.tags
+  tags         = merge(local.tags, { Monitor = "true" })
   domain_name  = var.domain_name
   domain_id    = var.domain_id
   kms_arn      = var.kms_arn
