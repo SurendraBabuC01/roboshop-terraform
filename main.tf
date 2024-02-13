@@ -81,6 +81,7 @@ module "rabbitmq" {
   env          = var.env
   kms_arn      = var.kms_arn
   bastion_cidr = var.bastion_cidr
+  domain_id    = var.domain_id
 }
 
 module "alb" {
