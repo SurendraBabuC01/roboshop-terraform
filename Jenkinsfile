@@ -1,3 +1,3 @@
 @Library('roboshop')
 
-terrafrom ()
+terraform ()
